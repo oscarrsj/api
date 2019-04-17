@@ -43,10 +43,10 @@ public class UsuarioResource {
 		return ResponseEntity.ok(TokenUtil.getToken(usuarioSalvo.getEmail()));
 	} 
 	
-	  @GetMapping(path = "/me")
-	    public ResponseEntity<Usuario> me(Principal principal) {
-	        return ResponseEntity.ok(usuarioService.findByEmailAddress(principal.getName()));
-	    }
+	@GetMapping(path = "/me")
+    public ResponseEntity<Usuario> me(Principal principal) {
+        return ResponseEntity.ok(usuarioService.findByEmailAddress(principal.getName()));
+    }
 	
 	
 }
