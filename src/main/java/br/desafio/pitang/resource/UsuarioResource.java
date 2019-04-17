@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.desafio.pitang.config.JWTLoginFilter;
+import br.desafio.pitang.jwt.TokenUtil;
 import br.desafio.pitang.model.Usuario;
 import br.desafio.pitang.security.exception.InvalidFieldsException;
 import br.desafio.pitang.service.UsuarioService;
@@ -22,10 +22,6 @@ import br.desafio.pitang.service.UsuarioService;
 
 @RestController
 public class UsuarioResource {
-
-    @Autowired
-    AuthenticationManager authenticationManager;
-
 	
 	@Autowired
 	private UsuarioService usuarioService;
@@ -35,7 +31,7 @@ public class UsuarioResource {
 	public ResponseEntity<Object>singup(@RequestBody @Valid Usuario usuario) {
 		Usuario usuarioSalvo = usuarioService.singup(usuario);
 		
-		return ResponseEntity.ok("token: " + JWTLoginFilter.getToken(usuarioSalvo.getEmail()));
+		return ResponseEntity.ok("token: " + TokenUtil.getToken(usuarioSalvo.getEmail()));
 	} 
 	
 	@PostMapping("/singin")
@@ -44,7 +40,7 @@ public class UsuarioResource {
 	  		   throw new InvalidFieldsException("Missing Fields");
 	    
 	    Usuario usuarioSalvo =  usuarioService.singin(usuarioRequest.convertToUsuario());
-		return ResponseEntity.ok(JWTLoginFilter.getToken(usuarioSalvo.getEmail()));
+		return ResponseEntity.ok(TokenUtil.getToken(usuarioSalvo.getEmail()));
 	} 
 	
 	  @GetMapping(path = "/me")
